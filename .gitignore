@@ -67,3 +67,11 @@ venv.bak/
 # Local user configs / key backups (do not commit production keys)
 *.key
 *.enc
+# Arch package build files
+*.pkg.tar.zst
+*.pkg.tar.zst.sig
+pkg/
+src/*.egg-info/
+
+# makepkg source clones
+ai-git-committer-*/
