@@ -14,28 +14,28 @@ Designed for Arch Linux, CachyOS, and Linux systems.
 
 ## Features
 
-* ⚡ **Groq AI Integration**
+*  **Groq AI Integration**
 
   * Fast commit message generation using Groq-hosted LLM models.
   * Supports configurable model presets.
 
-* 🔐 **Encrypted API Key Storage**
+*  **Encrypted API Key Storage**
 
   * Groq API keys are encrypted using Fernet symmetric encryption.
   * Plaintext API keys are never stored.
 
-* 📦 **Arch Linux / CachyOS Optimized**
+*  **Arch Linux / CachyOS Optimized**
 
   * Native `PKGBUILD` support.
   * Works with Arch package management workflows.
   * Supports AUR-style installation.
 
-* 🛠️ **CLI Integration**
+*  **CLI Integration**
 
   * Installs the `aic` command launcher.
   * Integrates with normal Linux shell environments.
 
-* 📝 **Conventional Commit Enforcement**
+*  **Conventional Commit Enforcement**
 
   * Generates commits following Conventional Commits:
 
@@ -46,12 +46,12 @@ Designed for Arch Linux, CachyOS, and Linux systems.
     * `chore:`
     * and more.
 
-* 📜 **Commit History Tracking**
+*  **Commit History Tracking**
 
   * Stores generated commit history locally.
   * Includes timestamps and model information.
 
-* ⚙️ **Configurable**
+*  **Configurable**
 
   * Custom models.
   * Temperature settings.
