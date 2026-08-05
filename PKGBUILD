@@ -76,9 +76,6 @@ package() {
 
     echo "Installing desktop entry..."
 
-    install -Dm644 \
-        ai-git-committer.desktop \
-        "$pkgdir/usr/share/applications/ai-git-committer.desktop"
 
 
     echo "Installing icon..."
