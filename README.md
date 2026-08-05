@@ -4,178 +4,340 @@
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![Arch Linux](https://img.shields.io/badge/Arch_Linux-CachyOS-brightgreen.svg)](https://archlinux.org/)
 
-`ai-git-committer` is a production-quality CLI tool designed for Arch Linux, CachyOS, and Linux systems. It automatically stages changes, analyzes repository diffs using Groq's ultra-fast LLM API, enforces strict [Conventional Commits](https://www.conventionalcommits.org/), and executes commits with interactive confirmation.
+`ai-git-committer` is an AI-powered CLI tool that generates high-quality Conventional Commit messages from your Git repository changes.
+
+It automatically analyzes staged changes, creates commit messages using Groq's fast LLM API, validates the format, and commits with interactive confirmation.
+
+Designed for Arch Linux, CachyOS, and Linux systems.
 
 ---
 
 ## Features
 
-- ⚡ **Groq AI Integration**: Blazing fast commit message generation using `llama-3.1-8b-instant` and `llama-3.3-70b-versatile`.
-- 🔐 **Encrypted Key Storage**: API keys are securely encrypted using Fernet symmetric cryptography (`cryptography.fernet`). Plaintext keys are never saved.
-- 📦 **Arch Linux & CachyOS Optimized**: Integrates seamlessly with system Python and AUR helpers (`paru` / `yay`).
-- 🛠️ **Automatic PATH & Launcher Setup**: Installs `ai-git-committer` and `ai-committer` binaries into `~/.local/bin` and auto-configures your shell environment (`.bashrc`, `.zshrc`, `.profile`, `config.fish`).
-- 🗑️ **Built-in Uninstaller**: Cleanly removes executable launchers, package installations, and shell PATH modifications.
-- 📝 **Strict Conventional Commits**: Validates commit format (`feat:`, `fix:`, `docs:`, etc.) with automatic single-retry fallback logic.
-- 📜 **History Tracking**: Keeps a local log of generated commits with timestamps and model metadata.
-- ⚙️ **Configurable & Extensible**: Support schema migrations, interactive config editing with `$EDITOR`, custom model overrides, and temperature adjustments.
+* ⚡ **Groq AI Integration**
+
+  * Fast commit message generation using Groq-hosted LLM models.
+  * Supports configurable model presets.
+
+* 🔐 **Encrypted API Key Storage**
+
+  * Groq API keys are encrypted using Fernet symmetric encryption.
+  * Plaintext API keys are never stored.
+
+* 📦 **Arch Linux / CachyOS Optimized**
+
+  * Native `PKGBUILD` support.
+  * Works with Arch package management workflows.
+  * Supports AUR-style installation.
+
+* 🛠️ **CLI Integration**
+
+  * Installs the `aic` command launcher.
+  * Integrates with normal Linux shell environments.
+
+* 📝 **Conventional Commit Enforcement**
+
+  * Generates commits following Conventional Commits:
+
+    * `feat:`
+    * `fix:`
+    * `docs:`
+    * `refactor:`
+    * `chore:`
+    * and more.
+
+* 📜 **Commit History Tracking**
+
+  * Stores generated commit history locally.
+  * Includes timestamps and model information.
+
+* ⚙️ **Configurable**
+
+  * Custom models.
+  * Temperature settings.
+  * Configuration editing.
+  * History management.
 
 ---
 
-## Installation
+# Installation
 
-### Method 1: Using Standalone Setup Installer (Recommended)
+## Arch Linux / CachyOS (PKGBUILD)
 
-Clone the repository and run `install.py`:
+Clone the repository:
 
 ```bash
-git clone https://github.com/example/ai-git-committer.git
+git clone https://github.com/gnxbd4vbtm-ops/ai-git-committer.git
 cd ai-git-committer
-python install.py
 ```
 
-`install.py` automatically:
-- Detects Arch Linux / CachyOS & missing Python packages (`python-groq`, `python-cryptography`).
-- Installs `ai-git-committer` & `ai-committer` launchers to `~/.local/bin`.
-- Ensures `~/.local/bin` is added to your shell's `PATH` (`.bashrc`, `.zshrc`, `.profile`, `config.fish`).
-- Initializes `~/.config/ai-git-committer/` directories and Fernet encryption keys.
-
-### Method 2: Standard Python Package Installation
-
-Install directly using `pip`:
+Build and install:
 
 ```bash
-pip install -e .
+makepkg -si
+```
+
+The package will install:
+
+* `aic`
+* `ai-git-committer`
+
+and required dependencies.
+
+---
+
+## Manual Python Installation
+
+Install dependencies:
+
+```bash
+pip install build installer wheel
+```
+
+Build the package:
+
+```bash
+python -m build --wheel
+```
+
+Install:
+
+```bash
+pip install dist/*.whl
 ```
 
 ---
 
-## Uninstallation
+# Dependencies
 
-To completely uninstall `ai-git-committer`:
+Runtime dependencies:
+
+* Python
+* Git
+* `python-cryptography`
+* `python-groq`
+
+For Arch Linux:
 
 ```bash
-python uninstall.py
+depends=(
+    'python'
+    'python-cryptography'
+    'python-groq'
+    'git'
+)
 ```
 
-Or run via the CLI:
-```bash
-ai-git-committer --uninstall
-```
-
-To also remove configuration files, API keys, and history log, pass `--purge`:
-```bash
-python uninstall.py --purge
-```
+`python-groq` is available through the Arch User Repository (AUR).
 
 ---
 
-## Quick Start
+# Quick Start
 
-1. **Set your Groq API key** (obtainable from [Groq Console](https://console.groq.com/)):
+## 1. Configure your Groq API key
+
+Get your API key from:
+
+https://console.groq.com/
+
+Then:
 
 ```bash
-ai-git-committer --api-key gsk_your_encrypted_groq_api_key_here
+aic --api-key gsk_your_key_here
 ```
 
-2. **Run in any Git Repository**:
-
-```bash
-ai-git-committer
-```
+The key is encrypted before storage.
 
 ---
 
-## Screenshots
-
-<!-- SCREENSHOT PLACEHOLDER -->
-![ai-git-committer CLI Preview](https://via.placeholder.com/800x400.png?text=ai-git-committer+Terminal+Interface+Preview)
-
----
-
-## Usage & Commands
-
-```
-usage: ai-git-committer [-h] [-v] [--debug] [--api-key KEY] [--model MODEL]
-                       [--set-model MODEL] [--list] [--history]
-                       [--history-clear] [--config] [--edit-config]
-                       [--reset-config]
-
-Options:
-  -h, --help           Show help message and exit
-  -v, --version        Show program version and exit
-  --debug              Enable verbose debug logging output
-
-API Key Management:
-  --api-key KEY        Encrypt and store your Groq API key securely
-
-Model Presets & Overrides:
-  --model MODEL        Temporarily override model for this run ('normal' | 'smart' | explicit ID)
-  --set-model MODEL    Permanently set default model preset in config.json
-  --list               List available Groq model presets and active configuration
-
-History Management:
-  --history            Display recorded commit message history log
-  --history-clear      Clear all entries from history log file
-
-Configuration:
-  --config             Show active configuration settings and file paths
-  --edit-config        Open config.json in system default text editor ($EDITOR)
-  --reset-config       Reset config.json to factory default values
-```
-
----
-
-## Examples
-
-### 1. Standard Commit with Default Preset (`normal`)
+## 2. Run inside a Git repository
 
 ```bash
-$ ai-git-committer
--> Generating commit message using model 'normal' (llama-3.1-8b-instant)...
+cd your-project
+
+aic
+```
+
+Example:
+
+```
+Generating commit message...
 
 Proposed Commit Message:
-  feat(crypto): add Fernet encryption for API key storage
 
-Proceed with this commit? [Y/n/e (edit)]: y
-[✓] Commit successful!
+feat(config): add automatic configuration migration
+
+Proceed with this commit? [Y/n/e]:
 ```
 
-### 2. Complex Refactor using `smart` Model (`llama-3.3-70b-versatile`)
+---
 
-```bash
-$ ai-git-committer --model smart
--> Generating commit message using model 'smart' (llama-3.3-70b-versatile)...
+# Commands
 
-Proposed Commit Message:
-  refactor(git): migrate subprocess execution to safe parameter lists
-
-Proceed with this commit? [Y/n/e (edit)]: y
+```
+usage: aic [-h] [-v] [--debug] [--api-key KEY] [--model MODEL]
+           [--set-model MODEL] [--list] [--history]
+           [--history-clear] [--config]
+           [--edit-config] [--reset-config]
 ```
 
-### 3. View Commit History
+## General
 
-```bash
-$ ai-git-committer --history
---- Commit History Log ---
-[2026-08-05 08:30:00 +0200] (normal) feat(config): implement schema auto-migration
-[2026-08-05 08:32:15 +0200] (smart) refactor(ai): add single-retry fallback validation
 ```
+-h, --help
+```
+
+Show help.
+
+```
+-v, --version
+```
+
+Show version.
+
+```
+--debug
+```
+
+Enable debug output.
+
+---
+
+## API Key Management
+
+```
+--api-key KEY
+```
+
+Encrypt and store your Groq API key.
+
+---
+
+## Models
+
+```
+--model MODEL
+```
+
+Temporarily override the model.
+
+```
+--set-model MODEL
+```
+
+Save the default model.
+
+```
+--list
+```
+
+Show available models and configuration.
+
+---
+
+## History
+
+```
+--history
+```
+
+Display generated commit history.
+
+```
+--history-clear
+```
+
+Clear history.
 
 ---
 
 ## Configuration
 
-Configuration files are located in `~/.config/ai-git-committer/`:
+```
+--config
+```
+
+Show configuration paths.
+
+```
+--edit-config
+```
+
+Edit configuration.
+
+```
+--reset-config
+```
+
+Restore defaults.
+
+---
+
+# Examples
+
+## Normal Commit
+
+```bash
+$ aic
+
+Generating commit message...
+
+feat(crypto): add encrypted API key storage
+
+Proceed with this commit? [Y/n/e]: y
+
+[✓] Commit successful
+```
+
+---
+
+## Smart Model
+
+```bash
+$ aic --model smart
+```
+
+Uses the configured advanced model for more complex changes.
+
+---
+
+## View History
+
+```bash
+$ aic --history
+```
+
+Example:
+
+```
+[2026-08-05 08:30:00]
+feat(config): implement schema migration
+
+[2026-08-05 08:32:15]
+refactor(ai): improve commit validation
+```
+
+---
+
+# Configuration
+
+Stored in:
 
 ```
 ~/.config/ai-git-committer/
-├── config.json      # Main configuration options
-├── history.txt      # Recorded commit history log
-├── api.key          # Fernet key permissions 0600
-└── secrets.enc      # Encrypted Groq API key
 ```
 
-### Default `config.json`:
+Example:
+
+```
+~/.config/ai-git-committer/
+├── config.json
+├── history.txt
+├── api.key
+└── secrets.enc
+```
+
+Example configuration:
 
 ```json
 {
@@ -191,47 +353,63 @@ Configuration files are located in `~/.config/ai-git-committer/`:
 
 ---
 
-## Arch Linux AUR Packaging
+# Arch Linux Packaging
 
-`ai-git-committer` is designed to be easily packaged for the Arch Linux AUR using `PKGBUILD`.
+The project includes a native `PKGBUILD`.
 
-Sample PKGBUILD snippet:
+Current package version:
+
+```
+0.1.2
+```
+
+Example:
 
 ```bash
-pkgname=python-ai-git-committer
-pkgver=0.1.0
+pkgname=ai-git-committer
+pkgver=0.1.2
 pkgrel=1
-pkgdesc="AI Conventional Commit message generator using Groq API"
-arch=('any')
-url="https://github.com/example/ai-git-committer"
-license=('MIT')
-depends=('python' 'python-groq' 'python-cryptography')
-makedepends=('python-setuptools' 'python-build' 'python-installer' 'python-wheel')
-source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
-sha256sums=('SKIP')
 
-build() {
-  cd "$pkgname-$pkgver"
-  python -m build --wheel --no-isolation
-}
+depends=(
+    'python'
+    'python-cryptography'
+    'python-groq'
+    'git'
+)
 
-package() {
-  cd "$pkgname-$pkgver"
-  python -m installer --destdir="$pkgdir" dist/*.whl
-}
+makedepends=(
+    'git'
+    'python-build'
+    'python-installer'
+    'python-wheel'
+)
+```
+
+Source builds directly from GitHub tags:
+
+```bash
+source=(
+"$pkgname-$pkgver::git+https://github.com/gnxbd4vbtm-ops/ai-git-committer.git#tag=v$pkgver"
+)
 ```
 
 ---
 
-## Contributing
+# Contributing
 
-Contributions are welcome! Please follow these rules:
-1. Ensure code formatted with **Black**.
-2. Provide standard **type hints** and **docstrings** for all functions.
-3. Submit tests or clean diffs following Conventional Commits format.
+Contributions are welcome.
+
+Please:
+
+1. Follow Conventional Commits.
+2. Use type hints.
+3. Keep code formatted.
+4. Include clear commit messages.
 
 ---
 
-## License
+# License
 
-Distributed under the [MIT License](LICENSE).
+Distributed under the MIT License.
+
+See [LICENSE](LICENSE).
