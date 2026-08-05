@@ -13,7 +13,6 @@ from .exceptions import AIGitCommiterError
 from .git import GitRepository
 from .history import HistoryManager
 from .models import list_available_models, resolve_model_id
-from .uninstaller import run_full_uninstallation
 from .utils import Color, colorize, get_logger, setup_logging
 
 logger = get_logger()
@@ -173,11 +172,6 @@ def run_app(args: argparse.Namespace) -> int:
     setup_logging(debug=args.debug)
     config_mgr = ConfigManager()
     history_mgr = HistoryManager(config_mgr.paths.history_file)
-
-    # Handle uninstallation
-    if getattr(args, "uninstall", False):
-        run_full_uninstallation(purge=getattr(args, "purge", False), interactive=True)
-        return 0
 
     # 1. Handle API Key setting
     if args.api_key:
