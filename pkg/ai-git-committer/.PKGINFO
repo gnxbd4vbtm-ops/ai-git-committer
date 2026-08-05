@@ -3,12 +3,12 @@
 pkgname = ai-git-committer
 pkgbase = ai-git-committer
 xdata = pkgtype=pkg
-pkgver = 0.1.0-1
+pkgver = 0.1.1-1
 pkgdesc = Generate Conventional Commits using Groq AI
 url = https://github.com/gnxbd4vbtm-ops/ai-git-committer
-builddate = 1785916426
+builddate = 1785916701
 packager = Unknown Packager
-size = 339913
+size = 339163
 arch = any
 license = MIT
 depend = python
