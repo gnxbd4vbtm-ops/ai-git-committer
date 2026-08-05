@@ -1,0 +1,16 @@
+{
+  "config_version": 1,
+  "_comment_version": "Configuration schema version for automatic migrations",
+  "default_model": "normal",
+  "_comment_default_model": "Default model preset or custom model ID to use (normal, smart, or explicit model name)",
+  "temperature": 0.2,
+  "_comment_temperature": "Sampling temperature for AI generation (0.0 to 1.0)",
+  "max_tokens": 100,
+  "_comment_max_tokens": "Maximum tokens allowed in AI response",
+  "auto_add": true,
+  "_comment_auto_add": "Automatically run git add . before inspecting status",
+  "confirm_commit": true,
+  "_comment_confirm_commit": "Prompt for interactive confirmation before executing git commit",
+  "enforce_conventional_commits": true,
+  "_comment_enforce_conventional_commits": "Validate commit messages against Conventional Commits standard"
+}
