@@ -5,6 +5,7 @@ from enum import Enum
 from typing import Dict, List, Optional
 
 from .exceptions import AIError
+from .utils import Color, colorize
 
 
 class ModelPreset(str, Enum):
@@ -110,7 +111,7 @@ def list_available_models(
     Returns:
         List of formatted model descriptions.
     """
-    lines = ["Available Groq Model Presets:"]
+    lines = [colorize("Available Groq Model Presets:", Color.HEADER + Color.BOLD)]
 
     active = (current_active_model or "normal").strip().lower()
 
@@ -120,15 +121,24 @@ def list_available_models(
             or active == info.model_id.lower()
         )
 
-        status_marker = " (active)" if is_active else ""
+        status_marker = (
+            colorize(" (active)", Color.OKGREEN + Color.BOLD)
+            if is_active
+            else ""
+        )
+
+        alias_display = colorize(f"{alias:<20}", Color.OKCYAN + Color.BOLD)
+        model_display = colorize(f"{info.model_id:<50}", Color.OKBLUE)
 
         lines.append(
-            f"  - {alias:<20} -> {info.model_id:<50}{status_marker}\n"
+            f"  - {alias_display} -> {model_display}{status_marker}\n"
             f"    Description: {info.description}"
         )
 
     lines.append(
-        "\nYou can also pass any valid explicit Groq model identifier."
+        "\n" + colorize(
+            "You can also pass any valid explicit Groq model identifier.", Color.WARNING
+        )
     )
 
     return lines

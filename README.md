@@ -31,7 +31,7 @@ The package installs:
 - `/usr/share/applications/ai-git-committer.desktop`
 - `/usr/share/icons/hicolor/512x512/apps/ai-git-committer.png`
 
-The PKGBUILD builds from the reproducible `v0.1.5` Git source tag. Set `BUILDDIR` and `SRCDEST` as above: plain `makepkg -Ccfsi` uses a top-level `src/` build directory, which conflicts with this project's tracked Python source. The command also prevents an activated virtual environment from shadowing Arch's `python-build` and `python-installer` packages. Its build dependencies are installed by `makepkg` when available from configured repositories.
+The PKGBUILD builds from the reproducible `v0.1.6` Git source tag. Set `BUILDDIR` and `SRCDEST` as above: plain `makepkg -Ccfsi` uses a top-level `src/` build directory, which conflicts with this project's tracked Python source. The command also prevents an activated virtual environment from shadowing Arch's `python-build` and `python-installer` packages. Its build dependencies are installed by `makepkg` when available from configured repositories.
 
 ## Configure Groq
 
@@ -94,7 +94,7 @@ Any explicit valid Groq model ID may also be supplied with `--model` or `--set-m
 
 ## Desktop entry
 
-The package adds **AI Git Committer** to the desktop application menu. It runs `ai-git-committer` in a terminal so that you can review the proposed message and respond to the confirmation prompt.
+The package adds **AI Git Committer** to the desktop application menu. It opens `aic --help` in a terminal and waits for Enter before closing, so the usage information remains readable.
 
 ## Development cleanup
 
