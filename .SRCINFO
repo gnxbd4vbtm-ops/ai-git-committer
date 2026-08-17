@@ -17,3 +17,4 @@ pkgbase = ai-git-committer
 	sha256sums = SKIP
 
 pkgname = ai-git-committer
+
