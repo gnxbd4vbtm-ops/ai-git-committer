@@ -1,6 +1,6 @@
 pkgbase = ai-git-committer
 	pkgdesc = Generate Conventional Commits using Groq AI
-	pkgver = 0.1.9
+	pkgver = 0.2.0
 	pkgrel = 1
 	url = https://github.com/gnxbd4vbtm-ops/ai-git-committer
 	arch = any
@@ -13,7 +13,7 @@ pkgbase = ai-git-committer
 	depends = python-cryptography
 	depends = python-groq
 	depends = git
-	source = ai-git-committer-0.1.4::git+https://github.com/gnxbd4vbtm-ops/ai-git-committer.git#tag=v0.1.4
+	source = ai-git-committer-0.1.4::git+https://github.com/gnxbd4vbtm-ops/ai-git-committer.git#tag=v0.2.0
 	sha256sums = SKIP
 
 pkgname = ai-git-committer
