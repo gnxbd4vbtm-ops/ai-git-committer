@@ -28,12 +28,21 @@ def run(command: list[str]) -> int:
 
 
 def uninstall_package() -> bool:
+    if subprocess.run(
+        ["pacman", "-Q", "ai-git-committer"],
+        check=False,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    ).returncode != 0:
+        print("[INFO] ai-git-committer is not installed")
+        return True
+
     return (
         run(
             [
                 "sudo",
                 "pacman",
-                "-R",
+                "-Rns",
                 "--noconfirm",
                 "ai-git-committer",
             ]

@@ -16,6 +16,7 @@ from pathlib import Path
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent
+PACKAGING_DIR = PROJECT_ROOT / "packaging"
 
 
 def run(
@@ -73,13 +74,16 @@ def check_dependencies() -> bool:
 def build_package() -> Path | None:
     print("\n== Building Arch package ==")
 
+    if not (PACKAGING_DIR / "PKGBUILD").is_file():
+        print(f"[ERROR] Missing packaging recipe: {PACKAGING_DIR / 'PKGBUILD'}")
+        return None
+
     result = run(
         [
             "makepkg",
-            "-f",
-            "--clean",
+            "-Ccf",
         ],
-        cwd=PROJECT_ROOT,
+        cwd=PACKAGING_DIR,
     )
 
     if result != 0:
@@ -87,7 +91,7 @@ def build_package() -> Path | None:
         return None
 
     packages = sorted(
-        PROJECT_ROOT.glob("*.pkg.tar.zst"),
+        PACKAGING_DIR.glob("*.pkg.tar.*"),
         key=lambda p: p.stat().st_mtime,
         reverse=True,
     )
