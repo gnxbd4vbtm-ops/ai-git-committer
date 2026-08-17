@@ -43,7 +43,7 @@ build() {
 
     echo "Building Python wheel..."
 
-    python -m build \
+    PATH=/usr/bin:/bin python -m build \
         --wheel \
         --no-isolation
 }
@@ -53,7 +53,7 @@ package() {
 
     echo "Installing Python package..."
 
-    python -m installer \
+    PATH=/usr/bin:/bin python -m installer \
         --destdir="$pkgdir" \
         dist/*.whl
 
