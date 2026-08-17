@@ -18,10 +18,8 @@ Clone the repository and build the package:
 ```bash
 git clone git@github.com:gnxbd4vbtm-ops/ai-git-committer.git
 cd ai-git-committer
-env PATH=/usr/bin:/bin \
-  BUILDDIR="$PWD/.makepkg-build" \
-  SRCDEST="$PWD/.makepkg-build/sources" \
-  makepkg -Ccfsi
+cd packaging
+makepkg -Ccfsi
 ```
 
 The package installs:
@@ -31,7 +29,7 @@ The package installs:
 - `/usr/share/applications/ai-git-committer.desktop`
 - `/usr/share/icons/hicolor/512x512/apps/ai-git-committer.png`
 
-The PKGBUILD builds from the reproducible `v0.1.6` Git source tag. Set `BUILDDIR` and `SRCDEST` as above: plain `makepkg -Ccfsi` uses a top-level `src/` build directory, which conflicts with this project's tracked Python source. The command also prevents an activated virtual environment from shadowing Arch's `python-build` and `python-installer` packages. Its build dependencies are installed by `makepkg` when available from configured repositories.
+The Arch PKGBUILD lives in `packaging/` and builds from the reproducible `v0.1.6` Git source tag. Run makepkg from that directory: its generated `src/` and `pkg/` directories then remain separate from the tracked application source at the repository root. The PKGBUILD uses the system Python so an activated virtual environment cannot shadow Arch's `python-build` and `python-installer` packages.
 
 ## Configure Groq
 
