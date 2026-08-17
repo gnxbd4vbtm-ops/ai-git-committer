@@ -93,17 +93,6 @@ def build_arg_parser() -> argparse.ArgumentParser:
         help="Reset config.json to factory default values",
     )
 
-    # Uninstallation options
-    parser.add_argument(
-        "--uninstall",
-        action="store_true",
-        help="Uninstall ai-git-committer launchers, package, and PATH configurations",
-    )
-    parser.add_argument(
-        "--purge",
-        action="store_true",
-        help="When uninstalling, also remove configuration directory (~/.config/ai-git-committer)",
-    )
 
     return parser
 
