@@ -29,7 +29,7 @@ The package installs:
 - `/usr/share/applications/ai-git-committer.desktop`
 - `/usr/share/icons/hicolor/512x512/apps/ai-git-committer.png`
 
-The Arch PKGBUILD lives in `packaging/` and builds from the reproducible `v0.1.6` Git source tag. Run makepkg from that directory: its generated `src/` and `pkg/` directories then remain separate from the tracked application source at the repository root. The PKGBUILD uses the system Python so an activated virtual environment cannot shadow Arch's `python-build` and `python-installer` packages.
+The Arch PKGBUILD lives in `packaging/` and builds from the reproducible `v0.1.8` Git source tag. Run makepkg from that directory: its generated `src/` and `pkg/` directories then remain separate from the tracked application source at the repository root. The PKGBUILD uses the system Python so an activated virtual environment cannot shadow Arch's `python-build` and `python-installer` packages.
 
 ## Configure Groq
 
