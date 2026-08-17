@@ -1,61 +1,114 @@
 # ai-git-committer
 
-`ai-git-committer` is a terminal application that analyzes staged Git changes and uses Groq-hosted models to propose a one-line [Conventional Commit](https://www.conventionalcommits.org/) message. It validates the generated message before presenting it for interactive confirmation, then commits only after confirmation.
+`ai-git-committer` (`aic`) is a terminal application that analyzes staged Git changes and uses Groq-hosted models to propose a one-line [Conventional Commit](https://www.conventionalcommits.org/) message.
 
-Groq API keys are stored locally using Fernet encryption rather than plaintext. Commit-message history and configuration are stored beneath `~/.config/ai-git-committer/`.
+The generated message is validated before being presented for interactive confirmation. The application creates a commit only after you confirm it.
+
+Groq API keys are encrypted locally using Fernet rather than stored in plaintext. Configuration and commit-message history are stored under `~/.config/ai-git-committer/`.
 
 ## Requirements
 
-- Python 3.11 or later
-- Git
-- A Groq API key from <https://console.groq.com/>
-- For Arch Linux packaging: `python`, `python-cryptography`, `python-groq`, `git`, `python-build`, `python-installer`, and `python-wheel`
+Before installing, make sure the following dependencies are available:
+
+* **[fish](https://fishshell.com/)** — required shell. Bash support is planned for a future release.
+* **[Python 3.11+](https://www.python.org/)** — required to run the application.
+* **[Git](https://git-scm.com/)** — required for Git repository operations.
+* **[Groq API key](https://console.groq.com/)** — required to use the AI features.
+
+### Arch Linux packaging dependencies
+
+* [`python`](https://archlinux.org/packages/core/x86_64/python/)
+* [`python-cryptography`](https://archlinux.org/packages/extra/x86_64/python-cryptography/)
+* [`python-groq`](https://archlinux.org/packages/extra/any/python-groq/)
+* [`git`](https://archlinux.org/packages/extra/x86_64/git/)
+* [`python-build`](https://archlinux.org/packages/extra/any/python-build/)
+* [`python-installer`](https://archlinux.org/packages/extra/any/python-installer/)
+* [`python-wheel`](https://archlinux.org/packages/extra/any/python-wheel/)
 
 ## Install on Arch Linux
 
-Clone the repository and build the package:
+Clone the repository using either **SSH** or **HTTPS**.
 
-```bash
+### SSH
+
+```fish
 git clone git@github.com:gnxbd4vbtm-ops/ai-git-committer.git
-cd ai-git-committer
-cd packaging
+```
+
+### HTTPS
+
+```fish
+git clone https://github.com/gnxbd4vbtm-ops/ai-git-committer.git
+```
+
+Then build and install the package:
+
+```fish
+cd ai-git-committer/packaging
 makepkg -Ccfsi
 ```
 
+The `makepkg` command:
+
+* `-C` cleans previous build artifacts.
+* `-c` removes build dependencies and other temporary files after the build.
+* `-f` forces a rebuild.
+* `-s` installs missing dependencies.
+* `-i` installs the resulting package.
+
+### Installed files
+
 The package installs:
 
-- `/usr/bin/aic`
-- `/usr/bin/ai-git-committer`
-- `/usr/share/applications/ai-git-committer.desktop`
-- `/usr/share/icons/hicolor/512x512/apps/ai-git-committer.png`
+* `/usr/bin/aic`
+* `/usr/bin/ai-git-committer`
+* `/usr/share/applications/ai-git-committer.desktop`
+* `/usr/share/icons/hicolor/512x512/apps/ai-git-committer.png`
 
-The Arch PKGBUILD lives in `packaging/` and builds from the reproducible `v0.1.8` Git source tag. Run makepkg from that directory: its generated `src/` and `pkg/` directories then remain separate from the tracked application source at the repository root. The PKGBUILD uses the system Python so an activated virtual environment cannot shadow Arch's `python-build` and `python-installer` packages.
+The Arch `PKGBUILD` is located in `packaging/` and builds from the reproducible `v0.1.8` Git source tag.
+
+Run `makepkg` from the `packaging/` directory. Its generated `src/` and `pkg/` directories remain separate from the tracked application source in the repository root.
+
+The `PKGBUILD` uses the system Python environment so that an activated virtual environment cannot shadow Arch Linux's `python-build` and `python-installer` packages.
 
 ## Configure Groq
 
-Store an API key with either installed command:
+Store your Groq API key with either installed command:
 
-```bash
-aic --api-key gsk_your_key_here
+```fish
+aic --api-key <your_key_here>
 ```
 
-The CLI encrypts the key before saving it. Display its configuration paths and active settings with:
+The CLI encrypts the API key before storing it locally.
 
-```bash
+To display the current configuration, paths, and active settings:
+
+```fish
 aic --config
 ```
 
-## Use it
+## Usage
 
-Run the tool from a Git working tree:
+Run `aic` from inside a Git working tree:
 
-```bash
+```fish
 aic
 ```
 
-By default, configuration enables automatic staging (`git add .`), so review the working tree first. The application analyzes the staged name/status and diff, generates and validates a Conventional Commit message, and asks before committing. It makes no commit if you decline the prompt.
+By default, automatic staging is enabled (`git add .`). **Review your working tree before running `aic`** if you do not want every change staged.
 
-Useful supported options include:
+The application:
+
+1. Stages changes when automatic staging is enabled.
+2. Analyzes the staged file names, statuses, and diff.
+3. Generates a Conventional Commit message.
+4. Validates the generated message.
+5. Prompts you for confirmation.
+6. Creates the commit only if you confirm it.
+
+Declining the confirmation prompt leaves the repository uncommitted.
+
+### Command-line options
 
 ```text
 --api-key KEY       Encrypt and store a Groq API key
@@ -72,51 +125,112 @@ Useful supported options include:
 --purge             With --uninstall, remove its configuration directory
 ```
 
-Run `aic --help` for the authoritative option list.
+Run:
+
+```fish
+aic --help
+```
+
+for the authoritative and up-to-date option list.
 
 ## Model presets
 
-The two convenience presets are:
+Two convenience presets are provided:
 
-- `normal` → `openai/gpt-oss-20b`
-- `smart` → `openai/gpt-oss-120b`
+| Preset   | Model                 |
+| -------- | --------------------- |
+| `normal` | `openai/gpt-oss-20b`  |
+| `smart`  | `openai/gpt-oss-120b` |
 
 For example:
 
-```bash
+```fish
 aic --model smart
 aic --set-model openai/gpt-oss-20b
 ```
 
-Any explicit valid Groq model ID may also be supplied with `--model` or `--set-model`; the displayed presets are conveniences, not a dynamically retrieved catalog of every Groq model.
+You can also provide any valid Groq model ID directly with `--model` or `--set-model`.
 
-## Desktop entry
+The presets are convenience aliases and are not a dynamically retrieved catalog of available Groq models.
 
-The package adds **AI Git Committer** to the desktop application menu. It opens `aic --help` in a terminal and waits for Enter before closing, so the usage information remains readable.
+## Desktop Entry
 
-## Development cleanup
+The package adds **AI Git Committer** to the desktop application menu.
 
-Run:
+Launching the entry opens `aic --help` in a terminal and waits for Enter before closing, keeping the usage information visible.
+
+## Development Cleanup — `fish` Only
+
+Use the cleanup script to reset the local Arch Linux package installation and rebuild it from scratch:
 
 ```fish
-./clean.fish
+fish ./clean.fish
 ```
 
-The script first asks for confirmation. It removes the installed `ai-git-committer` package and known generated package/build artifacts, reinstalls the required Arch build dependencies, performs `makepkg -Ccfsi`, and verifies the installed files and command launchers. It deliberately never removes `.git/` or the tracked application source under `src/ai_git_committer/`.
+The script:
+
+1. Asks for confirmation before making changes.
+2. Removes the installed `ai-git-committer` package.
+3. Removes known generated package and build artifacts.
+4. Reinstalls the required Arch Linux build dependencies.
+5. Runs `makepkg -Ccfsi` to rebuild and reinstall the package.
+6. Verifies the installed files and command launchers.
+
+### Safety
+
+The cleanup script **never removes**:
+
+* `.git/`
+* Tracked application source files under `src/ai_git_committer/`
+
+This makes it suitable for repeatedly cleaning and rebuilding the package during development without deleting the Git repository or application source.
 
 ## Troubleshooting
 
 ### `model_not_found`
 
-The configured model may be retired or unavailable to the API key. Replace retired model IDs with a current preset such as `normal` (`openai/gpt-oss-20b`) or `smart` (`openai/gpt-oss-120b`), or supply another valid Groq model ID.
+The configured model may have been retired or may not be available to your API key.
 
-### Empty response from GPT-OSS
+Try one of the current convenience presets:
 
-GPT-OSS requests use low reasoning effort and disable returned reasoning for this focused commit-generation task. The client reports missing choices, messages, or content clearly, and logs the completion finish reason in debug mode when Groq provides one. If it persists, retry with `--debug` and check the model/API-key access in Groq.
+```fish
+aic --model normal
+aic --model smart
+```
+
+Alternatively, provide another valid Groq model ID:
+
+```fish
+aic --model <model_id>
+```
+
+### Empty GPT-OSS response
+
+GPT-OSS requests use low reasoning effort and disable returned reasoning for this focused commit-generation task.
+
+If the API returns an incomplete response, the client reports missing choices, messages, or content clearly. When available, the completion finish reason is also recorded in debug mode.
+
+If the problem persists, retry with:
+
+```fish
+aic --debug
+```
+
+Then verify that the configured model is available to your Groq API key.
 
 ### No staged changes
 
-Stage changes manually with `git add`, or check the `auto_add` setting shown by `aic --config`.
+If automatic staging is disabled, stage your changes manually:
+
+```fish
+git add .
+```
+
+You can check the current `auto_add` setting with:
+
+```fish
+aic --config
+```
 
 ## License
 
