@@ -6,6 +6,10 @@ The generated message is validated before being presented for interactive confir
 
 Groq API keys are encrypted locally using Fernet rather than stored in plaintext. Configuration and commit-message history are stored under `~/.config/ai-git-committer/`.
 
+## Screenshot
+
+![ai-git-committer command usage example](docs/screenshots/aic-command-usage-example.png)
+
 ## Requirements
 
 Before installing, make sure the following dependencies are available:
