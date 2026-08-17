@@ -75,3 +75,4 @@ src/*.egg-info/
 
 # makepkg source clones
 ai-git-committer-*/
+.makepkg-build
