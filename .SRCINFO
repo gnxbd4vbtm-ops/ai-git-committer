@@ -1,6 +1,6 @@
 pkgbase = ai-git-committer
 	pkgdesc = Generate Conventional Commits using Groq AI
-	pkgver = 0.1.4
+	pkgver = 0.1.9
 	pkgrel = 1
 	url = https://github.com/gnxbd4vbtm-ops/ai-git-committer
 	arch = any

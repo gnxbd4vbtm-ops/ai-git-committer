@@ -136,26 +136,36 @@ aic --help
 ```
 
 for the authoritative and up-to-date option list.
+## Shell Completions
 
-## Model presets
+Fish shell completions are included with the Arch Linux package and installed automatically to:
 
-Two convenience presets are provided:
+```text
+/usr/share/fish/vendor_completions.d/aic.fish
+```
 
-| Preset   | Model                 |
-| -------- | --------------------- |
-| `normal` | `openai/gpt-oss-20b`  |
-| `smart`  | `openai/gpt-oss-120b` |
+Completions are available for both `aic` and `ai-git-committer`, including command-line options and supported model presets.
 
 For example:
 
 ```fish
-aic --model smart
-aic --set-model openai/gpt-oss-20b
+aic --<TAB>
+aic --model <TAB>
+aic --set-model <TAB>
 ```
 
-You can also provide any valid Groq model ID directly with `--model` or `--set-model`.
+Available model suggestions include:
 
-The presets are convenience aliases and are not a dynamically retrieved catalog of available Groq models.
+* `normal` → `openai/gpt-oss-20b`
+* `smart` → `openai/gpt-oss-120b`
+* `gpt-oss-20b` → `openai/gpt-oss-20b`
+* `gpt-oss-120b` → `openai/gpt-oss-120b`
+* `qwen3-32b` → `qwen/qwen3-32b`
+* `qwen3-72b` → `qwen/qwen3-72b`
+* `kimi-k2-instruct` → `moonshotai/kimi-k2-instruct`
+
+Custom Groq model IDs can still be entered manually. The completion list provides suggestions but does not restrict the model argument to the listed presets.
+
 
 ## Desktop Entry
 

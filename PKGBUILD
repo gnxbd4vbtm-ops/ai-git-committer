@@ -1,7 +1,7 @@
 # Maintainer: Byte Blast
 
 pkgname=ai-git-committer
-pkgver=0.1.8
+pkgver=0.1.9
 pkgrel=1
 
 pkgdesc="Generate Conventional Commits using Groq AI"
@@ -66,6 +66,12 @@ package() {
     install -Dm755 \
         scripts/ai-git-committer \
         "$pkgdir/usr/bin/ai-git-committer"
+
+    echo "Installing Fish shell completions..."
+
+    install -Dm644 \
+        completions/aic.fish \
+        "$pkgdir/usr/share/fish/vendor_completions.d/aic.fish"
 
     echo "Installing desktop entry..."
 
