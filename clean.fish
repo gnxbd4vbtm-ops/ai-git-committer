@@ -9,7 +9,8 @@ if test -z "$repo_root"; or not test -f "$repo_root/pyproject.toml"; or not test
     exit 1
 end
 
-if not string match -q 'ai-git-committer' (command git -C "$repo_root" config --get remote.origin.url 2>/dev/null)
+set -l origin_url (command git -C "$repo_root" config --get remote.origin.url 2>/dev/null)
+if not string match -q -- '*ai-git-committer*' "$origin_url"
     echo "Error: refusing to clean because this is not the ai-git-committer repository." >&2
     exit 1
 end
