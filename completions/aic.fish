@@ -148,16 +148,3 @@ complete -c aic -c ai-git-committer \
 complete -c aic -c ai-git-committer \
     -l reset-config \
     -d 'Reset config.json to factory default values'
-
-# -------------------------------------------------------------------
-# Uninstallation
-# -------------------------------------------------------------------
-
-complete -c aic -c ai-git-committer \
-    -l uninstall \
-    -d 'Uninstall ai-git-committer launchers and package'
-
-complete -c aic -c ai-git-committer \
-    -l purge \
-    -n '__fish_seen_argument --uninstall' \
-    -d 'Also remove the configuration directory'

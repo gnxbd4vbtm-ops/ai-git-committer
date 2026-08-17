@@ -29,7 +29,11 @@ def build_arg_parser() -> argparse.ArgumentParser:
         description="Production-quality CLI application for generating Conventional Commits using Groq AI.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
-
+    parser.add_argument(
+    "--uninstall",
+    action="store_true",
+    help="Remove ai-git-committer user configuration before package removal",
+)
     parser.add_argument(
         "-v", "--version", action="version", version=f"%(prog)s {__version__}"
     )
@@ -162,7 +166,42 @@ def run_app(args: argparse.Namespace) -> int:
     config_mgr = ConfigManager()
     history_mgr = HistoryManager(config_mgr.paths.history_file)
 
+    # 0. Handle config removal 
+    if args.uninstall:
+        config_dir = config_mgr.paths.config_dir
+
+    if not config_dir.exists():
+        print(colorize(
+            "[i] ai-git-committer configuration directory does not exist.",
+            Color.OKCYAN,
+        ))
+        return 0
+
+    try:
+        import shutil
+
+        shutil.rmtree(config_dir)
+        print(colorize(
+            "[✓] ai-git-committer user configuration removed.",
+            Color.OKGREEN,
+        ))
+        print(
+            "You can now remove the package with: "
+            "sudo pacman -R ai-git-committer"
+        )
+        return 0
+    except OSError as err:
+        print(
+            colorize(
+                f"[✗] Failed to remove configuration directory: {err}",
+                Color.FAIL,
+            ),
+            file=sys.stderr,
+        )
+        return 1
+    
     # 1. Handle API Key setting
+    
     if args.api_key:
         store_encrypted_api_key(
             args.api_key, config_mgr.paths.key_file, config_mgr.paths.secret_file
