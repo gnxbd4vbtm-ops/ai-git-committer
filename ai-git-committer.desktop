@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=AI Git Committer
 Comment=Generate Conventional Commits using Groq AI
-Exec=aic --help
+Exec=ai-git-committer
 Icon=ai-git-committer
 Terminal=true
 Type=Application

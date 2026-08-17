@@ -141,15 +141,33 @@ class AICommitGenerator:
                 ],
                 model=self.model_id,
                 temperature=self.temperature,
-                max_tokens=self.max_tokens,
+                max_completion_tokens=self.max_tokens,
+                reasoning_effort="low",
+                include_reasoning=False,
             )
-            response_text = chat_completion.choices[0].message.content
-            if not response_text:
-                raise AIError("Groq API returned an empty response.")
+            choices = getattr(chat_completion, "choices", None)
+            if not choices:
+                raise AIError("Groq API response did not include any completion choices.")
+
+            choice = choices[0]
+            finish_reason = getattr(choice, "finish_reason", None)
+            if finish_reason:
+                logger.debug("Groq API completion finish_reason=%s", finish_reason)
+
+            message = getattr(choice, "message", None)
+            if message is None:
+                raise AIError("Groq API response choice did not include a message.")
+
+            response_text = getattr(message, "content", None)
+            if response_text is None:
+                raise AIError("Groq API response message did not include content.")
+            if not isinstance(response_text, str) or not response_text.strip():
+                raise AIError("Groq API returned empty completion content.")
             return response_text
         except Exception as err:
             if isinstance(err, AIError):
                 raise
+            logger.exception("Unexpected Groq API exception")
             raise AIError(f"Groq API call failed: {err}") from err
 
     def generate(self, name_status: str, git_diff: str, enforce_conventional: bool = True) -> str:

@@ -17,8 +17,6 @@ class ModelPreset(str, Enum):
     QWEN3_32B = "qwen3-32b"
     KIMI_K2_INSTRUCT = "kimi-k2-instruct"
     QWEN3_72B = "qwen3-72b"
-    LLAMA_4_SCOUT = "llama-4-scout"
-    LLAMA_4_MAVERICK = "llama-4-maverick"
 
 
 @dataclass(frozen=True)
@@ -74,17 +72,6 @@ PRESET_MODELS: Dict[str, ModelInfo] = {
         description="Large instruction-following model with strong coding capabilities.",
     ),
 
-    # Meta Llama 4
-    ModelPreset.LLAMA_4_SCOUT.value: ModelInfo(
-        alias="llama-4-scout",
-        model_id="meta-llama/llama-4-scout-17b-16e-instruct",
-        description="Efficient Llama 4 model for fast general-purpose workloads.",
-    ),
-    ModelPreset.LLAMA_4_MAVERICK.value: ModelInfo(
-        alias="llama-4-maverick",
-        model_id="meta-llama/llama-4-maverick-17b-128e-instruct",
-        description="Mixture-of-experts Llama 4 model for higher-capability workloads.",
-    ),
 }
 
 
