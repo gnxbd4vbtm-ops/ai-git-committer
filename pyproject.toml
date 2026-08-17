@@ -44,3 +44,8 @@ ai_git_committer = [
 Homepage = "https://github.com/gnxbd4vbtm-ops/ai-git-committer"
 Repository = "https://github.com/gnxbd4vbtm-ops/ai-git-committer"
 Issues = "https://github.com/gnxbd4vbtm-ops/ai-git-committer/issues"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+

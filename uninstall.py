@@ -51,28 +51,9 @@ def uninstall_package() -> bool:
     )
 
 
-def purge_config() -> None:
-    if CONFIG_DIR.exists():
-        shutil.rmtree(CONFIG_DIR)
-
-        print(
-            f"[OK] Removed configuration: {CONFIG_DIR}"
-        )
-    else:
-        print(
-            "[INFO] Configuration directory does not exist"
-        )
-
-
 def main() -> int:
     parser = argparse.ArgumentParser(
         description="Remove ai-git-committer"
-    )
-
-    parser.add_argument(
-        "--purge",
-        action="store_true",
-        help="Remove ~/.config/ai-git-committer",
     )
 
     parser.add_argument(
@@ -106,9 +87,6 @@ def main() -> int:
             "[ERROR] pacman removal failed"
         )
         return 1
-
-    if args.purge:
-        purge_config()
 
     print(
         """

@@ -7,7 +7,7 @@ from typing import Optional
 
 from . import __version__
 from .ai import AICommitGenerator
-from .config import ConfigManager
+from .config import ConfigManager, get_config_paths
 from .crypto import load_decrypted_api_key, store_encrypted_api_key
 from .exceptions import AIGitCommiterError
 from .git import GitRepository
@@ -30,10 +30,10 @@ def build_arg_parser() -> argparse.ArgumentParser:
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument(
-    "--uninstall",
-    action="store_true",
-    help="Remove ai-git-committer user configuration before package removal",
-)
+        "--uninstall",
+        action="store_true",
+        help="Remove ai-git-committer user configuration before package removal",
+    )
     parser.add_argument(
         "-v", "--version", action="version", version=f"%(prog)s {__version__}"
     )
@@ -95,6 +95,11 @@ def build_arg_parser() -> argparse.ArgumentParser:
         "--reset-config",
         action="store_true",
         help="Reset config.json to factory default values",
+    )
+    parser.add_argument(
+        "--restore",
+        action="store_true",
+        help="Restore default configuration (useful if config.json is corrupted)",
     )
 
 
@@ -163,45 +168,50 @@ def run_app(args: argparse.Namespace) -> int:
         Exit code (0 for success, non-zero for error).
     """
     setup_logging(debug=args.debug)
+
+    # 0. Handle config removal
+    if args.uninstall:
+        config_paths = get_config_paths()
+        config_dir = config_paths.config_dir
+
+        if not config_dir.exists():
+            print(
+                colorize(
+                    "[i] ai-git-committer configuration directory does not exist.",
+                    Color.OKCYAN,
+                )
+            )
+            return 0
+
+        try:
+            import shutil
+
+            shutil.rmtree(config_dir)
+            print(
+                colorize(
+                    "[✓] ai-git-committer user configuration removed.",
+                    Color.OKGREEN,
+                )
+            )
+            print(
+                "You can now remove the package with: "
+                "sudo pacman -R ai-git-committer"
+            )
+            return 0
+        except OSError as err:
+            print(
+                colorize(
+                    f"[✗] Failed to remove configuration directory: {err}",
+                    Color.FAIL,
+                ),
+                file=sys.stderr,
+            )
+            return 1
+
     config_mgr = ConfigManager()
     history_mgr = HistoryManager(config_mgr.paths.history_file)
 
-    # 0. Handle config removal 
-    if args.uninstall:
-        config_dir = config_mgr.paths.config_dir
-
-    if not config_dir.exists():
-        print(colorize(
-            "[i] ai-git-committer configuration directory does not exist.",
-            Color.OKCYAN,
-        ))
-        return 0
-
-    try:
-        import shutil
-
-        shutil.rmtree(config_dir)
-        print(colorize(
-            "[✓] ai-git-committer user configuration removed.",
-            Color.OKGREEN,
-        ))
-        print(
-            "You can now remove the package with: "
-            "sudo pacman -R ai-git-committer"
-        )
-        return 0
-    except OSError as err:
-        print(
-            colorize(
-                f"[✗] Failed to remove configuration directory: {err}",
-                Color.FAIL,
-            ),
-            file=sys.stderr,
-        )
-        return 1
-    
     # 1. Handle API Key setting
-    
     if args.api_key:
         store_encrypted_api_key(
             args.api_key, config_mgr.paths.key_file, config_mgr.paths.secret_file
@@ -219,7 +229,7 @@ def run_app(args: argparse.Namespace) -> int:
         print(colorize("[✓] Updated configuration saved.", Color.OKGREEN))
         return 0
 
-    if args.reset_config:
+    if args.reset_config or args.restore:
         config_mgr.reset_config()
         print(colorize("[✓] Configuration reset to factory defaults.", Color.OKGREEN))
         return 0

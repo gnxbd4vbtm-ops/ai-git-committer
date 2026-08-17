@@ -148,3 +148,17 @@ complete -c aic -c ai-git-committer \
 complete -c aic -c ai-git-committer \
     -l reset-config \
     -d 'Reset config.json to factory default values'
+
+complete -c aic -c ai-git-committer \
+    -l restore \
+    -d 'Restore default configuration if corrupted or missing'
+
+
+# -------------------------------------------------------------------
+# Uninstallation
+# -------------------------------------------------------------------
+
+complete -c aic -c ai-git-committer \
+    -l uninstall \
+    -d 'Remove user configuration directory'
+

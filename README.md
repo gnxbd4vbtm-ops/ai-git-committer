@@ -124,9 +124,9 @@ Declining the confirmation prompt leaves the repository uncommitted.
 --config            Show configuration and paths
 --edit-config       Open config.json in $EDITOR
 --reset-config      Restore default configuration
+--restore           Restore default configuration (if config.json is corrupted)
 --debug             Enable debug logging
---uninstall         Run the application's uninstall workflow
---purge             With --uninstall, remove its configuration directory
+--uninstall         Remove user configuration (~/.config/ai-git-committer/)
 ```
 
 Run:
@@ -136,6 +136,20 @@ aic --help
 ```
 
 for the authoritative and up-to-date option list.
+
+## Uninstallation
+
+To remove your user configuration (`~/.config/ai-git-committer/`):
+
+```fish
+aic --uninstall
+```
+
+Then remove the system package:
+
+```fish
+sudo pacman -R ai-git-committer
+```
 ## Shell Completions
 
 Fish shell completions are included with the Arch Linux package and installed automatically to:
@@ -244,6 +258,14 @@ You can check the current `auto_add` setting with:
 
 ```fish
 aic --config
+```
+
+### Corrupted configuration
+
+If `config.json` is corrupted or contains invalid JSON, restore it to default factory values:
+
+```fish
+aic --restore
 ```
 
 ## License
