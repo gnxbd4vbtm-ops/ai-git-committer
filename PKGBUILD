@@ -32,13 +32,11 @@ sha256sums=(
     'SKIP'
 )
 
-
 prepare() {
     cd "$srcdir/$pkgname-$pkgver"
 
     echo "Preparing ai-git-committer..."
 }
-
 
 build() {
     cd "$srcdir/$pkgname-$pkgver"
@@ -50,10 +48,8 @@ build() {
         --no-isolation
 }
 
-
 package() {
     cd "$srcdir/$pkgname-$pkgver"
-
 
     echo "Installing Python package..."
 
@@ -61,23 +57,20 @@ package() {
         --destdir="$pkgdir" \
         dist/*.whl
 
-
     echo "Installing command launchers..."
 
     install -Dm755 \
         scripts/aic \
         "$pkgdir/usr/bin/aic"
 
-
     install -Dm755 \
         scripts/ai-git-committer \
         "$pkgdir/usr/bin/ai-git-committer"
 
-
     echo "Installing desktop entry..."
 
     install -Dm644 \
-        "$srcdir/ai-git-committer.desktop" \
+        ai-git-committer.desktop \
         "$pkgdir/usr/share/applications/ai-git-committer.desktop"
 
     echo "Installing icon..."
