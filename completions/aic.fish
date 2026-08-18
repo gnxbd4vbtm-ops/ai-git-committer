@@ -27,7 +27,7 @@ complete -c aic -c ai-git-committer \
 complete -c aic -c ai-git-committer \
     -l api-key \
     -r \
-    -d 'Encrypt and store your Groq API key securely'
+    -d 'Encrypt and store your Groq API key securely in Fernet format'
 
 # -------------------------------------------------------------------
 # Model selection
@@ -37,7 +37,7 @@ complete -c aic -c ai-git-committer \
     -l model \
     -r \
     -a 'normal' \
-    -d 'Fast and lightweight model for routine commit messages'
+    -d 'Fast and lightweight model suited for routine commit messages'
 
 complete -c aic -c ai-git-committer \
     -l model \
@@ -49,25 +49,25 @@ complete -c aic -c ai-git-committer \
     -l model \
     -r \
     -a 'gpt-oss-20b' \
-    -d 'Fast open-weight reasoning model'
+    -d 'Fast open-weight reasoning model with strong general-purpose performance'
 
 complete -c aic -c ai-git-committer \
     -l model \
     -r \
     -a 'gpt-oss-120b' \
-    -d 'Large open-weight reasoning model'
+    -d 'Large open-weight reasoning model for complex tasks and code'
 
 complete -c aic -c ai-git-committer \
     -l model \
     -r \
     -a 'qwen3-32b' \
-    -d 'General-purpose Qwen reasoning and coding model'
+    -d 'General-purpose Qwen model with strong reasoning and coding capabilities'
 
 complete -c aic -c ai-git-committer \
     -l model \
     -r \
     -a 'qwen3-72b' \
-    -d 'Large Qwen model for demanding reasoning and coding'
+    -d 'Large Qwen model suited for demanding reasoning and coding tasks'
 
 complete -c aic -c ai-git-committer \
     -l model \
@@ -79,43 +79,43 @@ complete -c aic -c ai-git-committer \
     -l set-model \
     -r \
     -a 'normal' \
-    -d 'Set default model to normal'
+    -d 'Set default model to normal (openai/gpt-oss-20b)'
 
 complete -c aic -c ai-git-committer \
     -l set-model \
     -r \
     -a 'smart' \
-    -d 'Set default model to smart'
+    -d 'Set default model to smart (openai/gpt-oss-120b)'
 
 complete -c aic -c ai-git-committer \
     -l set-model \
     -r \
     -a 'gpt-oss-20b' \
-    -d 'Set default model to GPT-OSS 20B'
+    -d 'Set default model to GPT-OSS 20B (openai/gpt-oss-20b)'
 
 complete -c aic -c ai-git-committer \
     -l set-model \
     -r \
     -a 'gpt-oss-120b' \
-    -d 'Set default model to GPT-OSS 120B'
+    -d 'Set default model to GPT-OSS 120B (openai/gpt-oss-120b)'
 
 complete -c aic -c ai-git-committer \
     -l set-model \
     -r \
     -a 'qwen3-32b' \
-    -d 'Set default model to Qwen3 32B'
+    -d 'Set default model to Qwen3 32B (qwen/qwen3-32b)'
 
 complete -c aic -c ai-git-committer \
     -l set-model \
     -r \
     -a 'qwen3-72b' \
-    -d 'Set default model to Qwen3 72B'
+    -d 'Set default model to Qwen3 72B (qwen/qwen3-72b)'
 
 complete -c aic -c ai-git-committer \
     -l set-model \
     -r \
     -a 'kimi-k2-instruct' \
-    -d 'Set default model to Kimi K2 Instruct'
+    -d 'Set default model to Kimi K2 Instruct (moonshotai/kimi-k2-instruct)'
 
 # -------------------------------------------------------------------
 # Model and history information
@@ -127,11 +127,11 @@ complete -c aic -c ai-git-committer \
 
 complete -c aic -c ai-git-committer \
     -l history \
-    -d 'Display recorded commit message history'
+    -d 'Display recorded commit message history log'
 
 complete -c aic -c ai-git-committer \
     -l history-clear \
-    -d 'Clear all entries from history log'
+    -d 'Clear all entries from history log file'
 
 # -------------------------------------------------------------------
 # Configuration
@@ -143,7 +143,7 @@ complete -c aic -c ai-git-committer \
 
 complete -c aic -c ai-git-committer \
     -l edit-config \
-    -d 'Open config.json in the system editor'
+    -d 'Open config.json in system default text editor ($EDITOR)'
 
 complete -c aic -c ai-git-committer \
     -l reset-config \
@@ -151,8 +151,7 @@ complete -c aic -c ai-git-committer \
 
 complete -c aic -c ai-git-committer \
     -l restore \
-    -d 'Restore default configuration if corrupted or missing'
-
+    -d 'Restore default configuration (useful if config.json is corrupted)'
 
 # -------------------------------------------------------------------
 # Uninstallation
@@ -160,5 +159,6 @@ complete -c aic -c ai-git-committer \
 
 complete -c aic -c ai-git-committer \
     -l uninstall \
-    -d 'Remove user configuration directory'
+    -d 'Remove ai-git-committer user configuration directory before package removal'
+
 

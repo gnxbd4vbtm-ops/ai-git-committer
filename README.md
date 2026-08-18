@@ -215,6 +215,34 @@ The cleanup script **never removes**:
 
 This makes it suitable for repeatedly cleaning and rebuilding the package during development without deleting the Git repository or application source.
 
+## Release Publishing — `fish` Only
+
+Use the release publisher script to automatically bump versions, synchronize metadata, run tests, tag the release, and push changes:
+
+```fish
+# Auto-bump patch version (or publish current unreleased version)
+fish ./publisher.fish
+
+# Or specify a bump type
+fish ./publisher.fish patch
+fish ./publisher.fish minor
+fish ./publisher.fish major
+
+# Or specify an explicit version
+fish ./publisher.fish 0.2.2
+```
+
+The script:
+
+1. Validates repository environment and active Git branch.
+2. Resolves target version and automatically updates `.SRCINFO`, `pyproject.toml`, `PKGBUILD`, `packaging/PKGBUILD`, `src/ai_git_committer/__init__.py`, and `README.md`.
+3. Runs the automated test suite with `pytest` to guarantee all tests pass.
+4. Automatically commits all updated version and packaging files.
+5. Creates an annotated Git tag (`v<version>`).
+6. Pushes the branch and tag to GitHub after confirmation.
+
+Use `-y` / `--yes` to skip interactive confirmation prompts.
+
 ## Troubleshooting
 
 ### `model_not_found`

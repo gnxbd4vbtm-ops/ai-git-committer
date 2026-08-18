@@ -1,6 +1,6 @@
 """ai-git-committer: Production-quality Python CLI application for Groq AI commit generation."""
 
-__version__ = "0.2.1"
+__version__ = "0.2.2"
 __author__ = "Byte Blast"
 __license__ = "MIT"
 
