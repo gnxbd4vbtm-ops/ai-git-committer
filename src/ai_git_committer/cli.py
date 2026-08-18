@@ -30,11 +30,6 @@ def build_arg_parser() -> argparse.ArgumentParser:
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument(
-        "--uninstall",
-        action="store_true",
-        help="Remove ai-git-committer user configuration before package removal",
-    )
-    parser.add_argument(
         "-v", "--version", action="version", version=f"%(prog)s {__version__}"
     )
     parser.add_argument(
@@ -100,6 +95,13 @@ def build_arg_parser() -> argparse.ArgumentParser:
         "--restore",
         action="store_true",
         help="Restore default configuration (useful if config.json is corrupted)",
+    )
+
+    # Uninstallation
+    parser.add_argument(
+        "--uninstall",
+        action="store_true",
+        help="Remove ai-git-committer user configuration directory before package removal",
     )
 
 

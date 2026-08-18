@@ -1,7 +1,7 @@
 # Maintainer: Byte Blast
 
 pkgname=ai-git-committer
-pkgver=0.1.8
+pkgver=0.2.1
 pkgrel=1
 
 pkgdesc="Generate Conventional Commits using Groq AI"

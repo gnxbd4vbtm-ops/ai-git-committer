@@ -69,7 +69,7 @@ The package installs:
 * `/usr/share/applications/ai-git-committer.desktop`
 * `/usr/share/icons/hicolor/512x512/apps/ai-git-committer.png`
 
-The Arch `PKGBUILD` is located in `packaging/` and builds from the reproducible `v0.1.8` Git source tag.
+The Arch `PKGBUILD` is located in `packaging/` and builds from the reproducible `v0.2.1` Git source tag.
 
 Run `makepkg` from the `packaging/` directory. Its generated `src/` and `pkg/` directories remain separate from the tracked application source in the repository root.
 
@@ -115,18 +115,20 @@ Declining the confirmation prompt leaves the repository uncommitted.
 ### Command-line options
 
 ```text
---api-key KEY       Encrypt and store a Groq API key
---model MODEL       Use a model for this run
---set-model MODEL   Save the default model or explicit model ID
---list              Show configured model presets
---history           Show generated-message history
---history-clear     Clear generated-message history
---config            Show configuration and paths
---edit-config       Open config.json in $EDITOR
---reset-config      Restore default configuration
+-h, --help          Show help message and exit
+-v, --version       Show program's version number and exit
+--debug             Enable verbose debug logging output
+--api-key KEY       Encrypt and store a Groq API key securely in Fernet format
+--model MODEL       Temporarily override model for this run
+--set-model MODEL   Save default model preset or ID in config.json
+--list              List available Groq model presets and active configuration
+--history           Display recorded commit message history log
+--history-clear     Clear all entries from history log file
+--config            Show active configuration settings and file paths
+--edit-config       Open config.json in system default editor ($EDITOR)
+--reset-config      Reset config.json to factory default values
 --restore           Restore default configuration (if config.json is corrupted)
---debug             Enable debug logging
---uninstall         Remove user configuration (~/.config/ai-git-committer/)
+--uninstall         Remove user configuration directory (~/.config/ai-git-committer/)
 ```
 
 Run:
